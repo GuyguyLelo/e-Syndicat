@@ -1,0 +1,63 @@
+{% extends "syndicat/base.html" %}
+{% block title %}Catégories - {{ syndicat.nom }}{% endblock %}
+
+{% block content %}
+  <nav aria-label="breadcrumb" class="mb-3">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'syndicat:syndicat_list' %}">Syndicats</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'syndicat:syndicat_detail' syndicat.pk %}">{{ syndicat.nom }}</a></li>
+      <li class="breadcrumb-item active">Catégories</li>
+    </ol>
+  </nav>
+
+  <div class="page-header mb-4">
+    <h1 class="mb-1"><i class="bi bi-tags text-primary me-2"></i>Catégories de membres</h1>
+    <p class="text-muted mb-0">{{ syndicat.nom }}</p>
+  </div>
+
+  <div class="row g-4">
+    <div class="col-lg-5">
+      <div class="card">
+        <div class="card-header"><i class="bi bi-plus-circle me-2"></i>Ajouter une catégorie</div>
+        <div class="card-body">
+          <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+              <label class="form-label fw-medium" for="id_nom">Nom de la catégorie</label>
+              {{ form.nom }}
+              <div class="form-text">Ex: Propriétaire, Locataire, Membre du conseil</div>
+              {% if form.nom.errors %}<div class="form-text text-danger">{{ form.nom.errors.0 }}</div>{% endif %}
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-medium" for="id_ordre">Ordre d'affichage</label>
+              {{ form.ordre }}
+            </div>
+            <button type="submit" class="btn btn-primary w-100"><i class="bi bi-plus-lg me-2"></i>Ajouter</button>
+          </form>
+        </div>
+      </div>
+      <div class="mt-3 d-flex gap-2">
+        <a class="btn btn-outline-secondary btn-sm" href="{% url 'syndicat:syndicat_detail' syndicat.pk %}"><i class="bi bi-arrow-left me-1"></i>Retour au syndicat</a>
+        <a class="btn btn-outline-primary btn-sm" href="{% url 'syndicat:member_list' syndicat.pk %}"><i class="bi bi-people me-1"></i>Voir les membres</a>
+      </div>
+    </div>
+    <div class="col-lg-7">
+      <div class="card">
+        <div class="card-header"><i class="bi bi-list-ul me-2"></i>Catégories existantes</div>
+        <div class="list-group list-group-flush">
+          {% for cat in categories %}
+            <div class="list-group-item d-flex justify-content-between align-items-center py-3 border-0 border-bottom">
+              <span class="fw-medium">{{ cat.nom }}</span>
+              <span class="badge bg-primary rounded-pill">{{ cat.membres.count }} membre{{ cat.membres.count|pluralize }}</span>
+            </div>
+          {% empty %}
+            <div class="list-group-item text-muted text-center py-5 border-0">
+              <i class="bi bi-inbox display-4 opacity-25 mb-2"></i>
+              <p class="mb-0">Aucune catégorie. Ajoutez-en une à gauche.</p>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

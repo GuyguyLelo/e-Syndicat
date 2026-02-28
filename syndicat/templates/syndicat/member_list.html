@@ -1,0 +1,85 @@
+{% extends "syndicat/base.html" %}
+{% block title %}Membres - {{ syndicat.nom }}{% endblock %}
+
+{% block content %}
+  <nav aria-label="breadcrumb" class="mb-3">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'syndicat:syndicat_list' %}">Syndicats</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'syndicat:syndicat_detail' syndicat.pk %}">{{ syndicat.nom }}</a></li>
+      <li class="breadcrumb-item active">Membres</li>
+    </ol>
+  </nav>
+
+  <div class="page-header d-flex justify-content-between align-items-center flex-wrap gap-3">
+    <div>
+      <h1 class="mb-1"><i class="bi bi-people text-primary me-2"></i>Membres — {{ syndicat.nom }}</h1>
+      <p class="text-muted mb-0">{{ membres|length }} membre{{ membres|length|pluralize }} enregistré{{ membres|length|pluralize:"e,s" }}</p>
+    </div>
+    <div class="d-flex gap-2">
+      <a class="btn btn-outline-secondary" href="{% url 'syndicat:syndicat_detail' syndicat.pk %}"><i class="bi bi-arrow-left me-1"></i>Retour</a>
+      <a class="btn btn-primary" href="{% url 'syndicat:member_create' syndicat.pk %}">
+        <i class="bi bi-person-plus me-2"></i>Ajouter un membre
+      </a>
+    </div>
+  </div>
+
+  {% if membres %}
+    <div class="card overflow-hidden">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead>
+            <tr>
+              <th style="width: 48px;"></th>
+              <th>N°</th>
+              <th>Nom</th>
+              <th>Catégorie</th>
+              <th class="d-none d-md-table-cell">Contact</th>
+              <th>Statut</th>
+              <th class="text-end">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for m in membres %}
+              <tr>
+                <td class="pe-2">
+                  {% if m.photo %}
+                    <img src="{{ m.photo.url }}" alt="" class="rounded" style="width: 40px; height: 40px; object-fit: cover;">
+                  {% else %}
+                    <div class="rounded d-flex align-items-center justify-content-center text-muted" style="width: 40px; height: 40px; background: var(--bg-subtle);">
+                      <i class="bi bi-person" style="font-size: 1.25rem;"></i>
+                    </div>
+                  {% endif %}
+                </td>
+                <td class="fw-semibold text-dark">{{ m.numero_membre }}</td>
+                <td>
+                  <a href="{% url 'syndicat:member_detail' m.pk %}" class="text-decoration-none fw-medium text-dark">{{ m.nom_complet }}</a>
+                </td>
+                <td><span class="badge bg-primary">{{ m.categorie.nom }}</span></td>
+                <td class="d-none d-md-table-cell">{{ m.email|default:"—" }}</td>
+                <td>
+                  {% if m.actif %}<span class="badge bg-success"><i class="bi bi-check-circle me-1"></i>Actif</span>{% else %}<span class="badge bg-secondary">Inactif</span>{% endif %}
+                </td>
+                <td class="text-end">
+                  <div class="btn-group btn-group-sm">
+                    <a href="{% url 'syndicat:member_detail' m.pk %}" class="btn btn-outline-primary" title="Voir"><i class="bi bi-eye"></i></a>
+                    <a href="{% url 'syndicat:member_card_display' m.pk %}" class="btn btn-outline-secondary" target="_blank" title="Afficher carte"><i class="bi bi-credit-card"></i></a>
+                    <a href="{% url 'syndicat:member_card_display' m.pk %}" class="btn btn-outline-success" target="_blank" title="Générer carte"><i class="bi bi-credit-card me-1"></i>Générer carte</a>
+                  </div>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  {% else %}
+    <div class="card text-center py-5">
+      <div class="card-body">
+        <i class="bi bi-people display-1 text-muted opacity-25 mb-3"></i>
+        <h4 class="text-muted mb-2">Aucun membre</h4>
+        <p class="text-muted mb-4">Ajoutez le premier membre ou définissez des <a href="{% url 'syndicat:categories_manage' syndicat.pk %}">catégories</a>.</p>
+        <a class="btn btn-primary" href="{% url 'syndicat:member_create' syndicat.pk %}"><i class="bi bi-person-plus me-2"></i>Ajouter un membre</a>
+      </div>
+    </div>
+  {% endif %}
+{% endblock %}

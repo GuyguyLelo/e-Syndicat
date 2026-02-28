@@ -1,0 +1,10 @@
+{% extends "syndicat/base.html" %}
+{% block title %}Erreur carte — {{ member.nom_complet }}{% endblock %}
+
+{% block content %}
+  <div class="alert alert-danger">
+    <h4><i class="bi bi-exclamation-triangle me-2"></i>Erreur lors de la génération de la carte</h4>
+    <p class="mb-0">{{ error }}</p>
+  </div>
+  <a class="btn btn-outline-secondary" href="{% url 'syndicat:member_detail' member.pk %}"><i class="bi bi-arrow-left me-1"></i>Retour à la fiche</a>
+{% endblock %}

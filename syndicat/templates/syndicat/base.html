@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}e-Syndicat{% endblock %}</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #0c4a6e;
+      --primary-hover: #075985;
+      --primary-light: rgba(12, 74, 110, 0.08);
+      --accent: #0284c7;
+      --accent-hover: #0369a1;
+      --surface: #ffffff;
+      --surface-elevated: #ffffff;
+      --bg-body: #f1f5f9;
+      --bg-subtle: #f8fafc;
+      --border: #e2e8f0;
+      --border-focus: #0284c7;
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --text-muted: #64748b;
+      --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.04);
+      --shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.06), 0 2px 4px -2px rgba(15, 23, 42, 0.04);
+      --shadow-lg: 0 10px 15px -3px rgba(15, 23, 42, 0.08), 0 4px 6px -4px rgba(15, 23, 42, 0.04);
+      --radius: 10px;
+      --radius-lg: 14px;
+    }
+
+    * { -webkit-font-smoothing: antialiased; }
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-body);
+      color: var(--text-secondary);
+      font-size: 0.9375rem;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Navbar professionnelle */
+    .navbar {
+      background: var(--surface) !important;
+      border-bottom: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+      padding: 0.6rem 0;
+    }
+    .navbar-brand {
+      font-weight: 800;
+      font-size: 1.25rem;
+      letter-spacing: -0.02em;
+      color: var(--primary) !important;
+    }
+    .navbar-brand i { opacity: 0.9; }
+    .nav-link {
+      font-weight: 500;
+      color: var(--text-secondary) !important;
+      padding: 0.5rem 0.85rem !important;
+      border-radius: var(--radius);
+      transition: color 0.15s, background 0.15s;
+    }
+    .nav-link:hover { color: var(--primary) !important; background: var(--primary-light) !important; }
+    .navbar-toggler { border-color: var(--border); }
+    .navbar-toggler-icon { background-size: 1.1rem; }
+
+    /* Contenu principal */
+    main { flex: 1; padding-top: 1.75rem; padding-bottom: 3rem; }
+
+    /* Fil d'Ariane */
+    .breadcrumb {
+      background: none;
+      padding: 0;
+      font-size: 0.8125rem;
+      margin-bottom: 1.25rem;
+    }
+    .breadcrumb-item { color: var(--text-muted); }
+    .breadcrumb-item a { color: var(--text-secondary); text-decoration: none; font-weight: 500; }
+    .breadcrumb-item a:hover { color: var(--primary); }
+    .breadcrumb-item.active { color: var(--text-primary); font-weight: 600; }
+    .breadcrumb-item + .breadcrumb-item::before { color: var(--border); }
+
+    /* En-tête de page */
+    .page-header {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.75rem 2rem;
+      box-shadow: var(--shadow);
+      margin-bottom: 1.75rem;
+    }
+    .page-header h1 {
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: var(--text-primary);
+      letter-spacing: -0.02em;
+      margin-bottom: 0.25rem;
+    }
+    .page-header h1 .bi { color: var(--primary); }
+    .page-header .text-muted { font-size: 0.875rem; }
+
+    /* Cartes */
+    .card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+      background: var(--surface);
+      transition: box-shadow 0.2s, border-color 0.2s;
+    }
+    .card:hover { box-shadow: var(--shadow); border-color: rgba(2, 132, 199, 0.15); }
+    .card-header {
+      background: var(--bg-subtle);
+      border-bottom: 1px solid var(--border);
+      font-weight: 600;
+      font-size: 0.9375rem;
+      color: var(--text-primary);
+      border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+      padding: 1rem 1.5rem;
+    }
+    .card-header .bi { color: var(--primary); opacity: 0.9; }
+    .card-body { padding: 1.5rem; }
+
+    /* Boutons */
+    .btn-primary {
+      background: linear-gradient(180deg, var(--accent) 0%, var(--accent-hover) 100%);
+      border: none;
+      font-weight: 600;
+      font-size: 0.9375rem;
+      border-radius: var(--radius);
+      padding: 0.5rem 1.25rem;
+      box-shadow: 0 1px 2px rgba(2, 132, 199, 0.2);
+    }
+    .btn-primary:hover {
+      background: linear-gradient(180deg, var(--accent-hover) 0%, var(--primary) 100%);
+      box-shadow: 0 2px 4px rgba(2, 132, 199, 0.25);
+    }
+    .btn-outline-primary {
+      border-radius: var(--radius);
+      font-weight: 500;
+      border-color: var(--border);
+      color: var(--text-secondary);
+    }
+    .btn-outline-primary:hover {
+      border-color: var(--primary);
+      background: var(--primary-light);
+      color: var(--primary);
+    }
+    .btn-outline-secondary {
+      border-radius: var(--radius);
+      font-weight: 500;
+    }
+
+    /* Formulaires */
+    .form-label { font-weight: 500; color: var(--text-primary); font-size: 0.875rem; }
+    .form-control, .form-select {
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      padding: 0.55rem 0.9rem;
+      font-size: 0.9375rem;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .form-control:focus, .form-select:focus {
+      border-color: var(--border-focus);
+      box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.12);
+    }
+    .form-control::placeholder { color: #94a3b8; }
+    .form-text { font-size: 0.8125rem; color: var(--text-muted); }
+    .form-check-input:checked { background-color: var(--accent); border-color: var(--accent); }
+
+    /* Tableaux */
+    .table {
+      --bs-table-striped-bg: var(--bg-subtle);
+      font-size: 0.9375rem;
+    }
+    .table thead th {
+      font-weight: 600;
+      font-size: 0.8125rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--text-muted);
+      background: var(--bg-subtle);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 1.25rem;
+    }
+    .table tbody td {
+      padding: 1rem 1.25rem;
+      vertical-align: middle;
+      color: var(--text-secondary);
+      border-bottom: 1px solid var(--border);
+    }
+    .table tbody tr:hover td { background: var(--primary-light) !important; }
+    .table tbody tr:last-child td { border-bottom: none; }
+
+    /* Badges */
+    .badge {
+      font-weight: 500;
+      font-size: 0.75rem;
+      padding: 0.35em 0.65em;
+    }
+    .badge.bg-primary { background: var(--primary-light) !important; color: var(--primary) !important; }
+    .badge.bg-success { background: rgba(22, 163, 74, 0.12) !important; color: #15803d !important; }
+    .badge.bg-secondary { background: rgba(100, 116, 139, 0.15) !important; color: var(--text-muted) !important; }
+
+    /* Titres */
+    h1, h2, h3, h4, h5, h6 { color: var(--text-primary); font-weight: 700; }
+
+    /* Alertes */
+    .alert {
+      border-radius: var(--radius);
+      border: 1px solid;
+    }
+
+    /* Pied de page */
+    footer {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      padding: 1.25rem 0;
+      margin-top: auto;
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+    }
+
+    /* Liens */
+    a { color: var(--primary); transition: color 0.15s; }
+    a:hover { color: var(--primary-hover); }
+
+    /* List group dans cartes */
+    .card .list-group-item {
+      border-color: var(--border);
+      color: var(--text-secondary);
+    }
+    .card .list-group-item .text-muted { font-size: 0.8125rem; }
+    .card .list-group-item small + div { font-weight: 500; color: var(--text-primary); }
+
+    /* Carte de membre : forme initiale (format PVC 86×54 mm) — exclure du style des cartes */
+    .member-card-preview.card {
+      border: none;
+      border-radius: 0;
+      box-shadow: 0 1px 3px rgba(0,0,0,.1);
+      transition: none;
+    }
+    .member-card-preview.card:hover {
+      box-shadow: 0 1px 3px rgba(0,0,0,.1);
+      border-color: transparent;
+    }
+
+    /* Empty states */
+    .card .display-1.text-muted { color: var(--border) !important; }
+  </style>
+  {% block extra_css %}{% endblock %}
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center gap-2" href="{% url 'syndicat:syndicat_list' %}">
+        <i class="bi bi-briefcase-fill"></i> e-Syndicat
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="nav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'syndicat:syndicat_list' %}"><i class="bi bi-buildings me-2"></i>Syndicats</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'admin:index' %}"><i class="bi bi-gear me-2"></i>Administration</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container">
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show border shadow-sm mb-4" role="alert">
+          {{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+      {% endfor %}
+    {% endif %}
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer>
+    <div class="container d-flex justify-content-between align-items-center flex-wrap gap-2">
+      <span>e-Syndicat — Gestion des syndicats et membres</span>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  {% block extra_js %}{% endblock %}
+</body>
+</html>

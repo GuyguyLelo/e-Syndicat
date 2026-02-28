@@ -1,0 +1,107 @@
+{% extends "syndicat/base.html" %}
+{% block title %}{% if syndicat %}Modifier{% else %}Créer un syndicat{% endif %} - e-Syndicat{% endblock %}
+
+{% block content %}
+  <nav aria-label="breadcrumb" class="mb-2">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'syndicat:syndicat_list' %}">Syndicats</a></li>
+      <li class="breadcrumb-item active">{% if syndicat %}Modifier {{ syndicat.nom }}{% else %}Créer{% endif %}</li>
+    </ol>
+  </nav>
+
+  <div class="page-header mb-3">
+    <h1 class="mb-0 h5">{% if syndicat %}<i class="bi bi-pencil-square text-primary me-2"></i>Modifier le syndicat{% else %}<i class="bi bi-plus-square text-primary me-2"></i>Créer un syndicat{% endif %}</h1>
+  </div>
+
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="card mb-2">
+      <div class="card-header py-2"><i class="bi bi-info-circle me-2"></i>Informations générales</div>
+      <div class="card-body py-2">
+        <div class="row g-2">
+          <div class="col-md-4">
+            <label class="form-label small mb-0" for="id_nom">Nom / Sigle</label>
+            {{ form.nom }}
+            {% if form.nom.errors %}<div class="form-text text-danger small">{{ form.nom.errors.0 }}</div>{% endif %}
+          </div>
+          <div class="col-md-4">
+            <label class="form-label small mb-0" for="id_nom_complet">Nom complet</label>
+            {{ form.nom_complet }}
+          </div>
+          <div class="col-md-4">
+            <label class="form-label small mb-0" for="id_pays">Pays</label>
+            {{ form.pays }}
+          </div>
+          <div class="col-12">
+            <label class="form-label small mb-0" for="id_description">Description</label>
+            {{ form.description }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card mb-2">
+      <div class="card-header py-2"><i class="bi bi-images me-2"></i>Logo, fonds, cachet</div>
+      <div class="card-body py-2">
+        <div class="row g-2">
+          <div class="col-md-3">
+            <label class="form-label small mb-0" for="id_logo">Logo</label>
+            {{ form.logo }}
+            {% if syndicat and syndicat.logo %}<a href="{{ syndicat.logo.url }}" target="_blank" class="small text-primary">Voir</a>{% endif %}
+          </div>
+          <div class="col-md-3">
+            <label class="form-label small mb-0" for="id_image_fond">Fond RECTO</label>
+            {{ form.image_fond }}
+            {% if syndicat and syndicat.image_fond %}<a href="{{ syndicat.image_fond.url }}" target="_blank" class="small text-primary">Voir</a>{% endif %}
+          </div>
+          <div class="col-md-3">
+            <label class="form-label small mb-0" for="id_image_fond_verso">Fond VERSO</label>
+            {{ form.image_fond_verso }}
+            {% if syndicat and syndicat.image_fond_verso %}<a href="{{ syndicat.image_fond_verso.url }}" target="_blank" class="small text-primary">Voir</a>{% endif %}
+          </div>
+          <div class="col-md-3">
+            <label class="form-label small mb-0" for="id_cachet">Cachet</label>
+            {{ form.cachet }}
+            {% if syndicat and syndicat.cachet %}<a href="{{ syndicat.cachet.url }}" target="_blank" class="small text-primary">Voir</a>{% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card mb-2">
+      <div class="card-header py-2"><i class="bi bi-pen me-2"></i>Signataire</div>
+      <div class="card-body py-2">
+        <div class="row g-2">
+          <div class="col-md-4">
+            <label class="form-label small mb-0" for="id_signataire_nom">Nom</label>
+            {{ form.signataire_nom }}
+            {% if form.signataire_nom.errors %}<div class="form-text text-danger small">{{ form.signataire_nom.errors.0 }}</div>{% endif %}
+          </div>
+          <div class="col-md-4">
+            <label class="form-label small mb-0" for="id_signataire_titre">Titre</label>
+            {{ form.signataire_titre }}
+            {% if form.signataire_titre.errors %}<div class="form-text text-danger small">{{ form.signataire_titre.errors.0 }}</div>{% endif %}
+          </div>
+          <div class="col-md-4">
+            <label class="form-label small mb-0" for="id_signature">Signature</label>
+            {{ form.signature }}
+            {% if syndicat and syndicat.signature %}<a href="{{ syndicat.signature.url }}" target="_blank" class="small text-primary">Voir</a>{% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card mb-2">
+      <div class="card-header py-2"><i class="bi bi-file-text me-2"></i>Clause légale (VERSO)</div>
+      <div class="card-body py-2">
+        <label class="form-label small mb-0" for="id_clause_legale">Texte</label>
+        {{ form.clause_legale }}
+      </div>
+    </div>
+
+    <div class="d-flex gap-2 mt-2">
+      <button type="submit" class="btn btn-primary btn-sm"><i class="bi bi-check-lg me-1"></i>Enregistrer</button>
+      <a class="btn btn-outline-secondary btn-sm" href="{% if syndicat %}{% url 'syndicat:syndicat_detail' syndicat.pk %}{% else %}{% url 'syndicat:syndicat_list' %}{% endif %}">Annuler</a>
+    </div>
+  </form>
+{% endblock %}

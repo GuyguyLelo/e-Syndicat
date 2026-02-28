@@ -1,0 +1,104 @@
+{% extends "syndicat/base.html" %}
+{% block title %}{% if member %}Modifier{% else %}Ajouter un membre{% endif %} - e-Syndicat{% endblock %}
+
+{% block content %}
+  <nav aria-label="breadcrumb" class="mb-3">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'syndicat:syndicat_list' %}">Syndicats</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'syndicat:syndicat_detail' syndicat.pk %}">{{ syndicat.nom }}</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'syndicat:member_list' syndicat.pk %}">Membres</a></li>
+      <li class="breadcrumb-item active">{% if member %}Modifier {{ member.nom_complet }}{% else %}Ajouter{% endif %}</li>
+    </ol>
+  </nav>
+
+  <div class="page-header mb-4">
+    <h1 class="mb-1">{% if member %}<i class="bi bi-pencil-square text-primary me-2"></i>Modifier le membre{% else %}<i class="bi bi-person-plus text-primary me-2"></i>Ajouter un membre{% endif %}</h1>
+    <p class="text-muted mb-0">Syndicat : {{ syndicat.nom }}</p>
+  </div>
+
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.syndicat }}
+
+    <div class="card mb-4">
+      <div class="card-header"><i class="bi bi-person me-2"></i>Identité</div>
+      <div class="card-body">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label fw-medium">Catégorie</label>
+            {{ form.categorie }}
+            {% if form.categorie.errors %}<div class="form-text text-danger">{{ form.categorie.errors.0 }}</div>{% endif %}
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-medium">Numéro de membre</label>
+            {{ form.numero_membre }}
+            <div class="form-text">Laissé vide pour attribution automatique.</div>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-medium">Prénom</label>
+            {{ form.prenom }}
+            {% if form.prenom.errors %}<div class="form-text text-danger">{{ form.prenom.errors.0 }}</div>{% endif %}
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-medium">Nom</label>
+            {{ form.nom }}
+            {% if form.nom.errors %}<div class="form-text text-danger">{{ form.nom.errors.0 }}</div>{% endif %}
+          </div>
+          <div class="col-12">
+            <label class="form-label fw-medium">Photo</label>
+            {{ form.photo }}
+            {% if member and member.photo %}<p class="form-text mt-1"><a href="{{ member.photo.url }}" target="_blank" class="text-primary"><i class="bi bi-eye me-1"></i>Voir l'image actuelle</a></p>{% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card mb-4">
+      <div class="card-header"><i class="bi bi-envelope me-2"></i>Coordonnées</div>
+      <div class="card-body">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label fw-medium">Ministère / Entreprise</label>
+            {{ form.ministere_entreprise }}
+            <div class="form-text">Affiché sur la carte.</div>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-medium">Adresse</label>
+            {{ form.adresse }}
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-medium">Email</label>
+            {{ form.email }}
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-medium">Téléphone</label>
+            {{ form.telephone }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card mb-4">
+      <div class="card-header"><i class="bi bi-calendar-check me-2"></i>Adhésion</div>
+      <div class="card-body">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label fw-medium">Date d'adhésion</label>
+            {{ form.date_adhesion }}
+          </div>
+          <div class="col-md-6 d-flex align-items-end pb-2">
+            <div class="form-check form-switch">
+              {{ form.actif }}
+              <label class="form-check-label fw-medium" for="id_actif">Membre actif</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="d-flex gap-2">
+      <button type="submit" class="btn btn-primary"><i class="bi bi-check-lg me-2"></i>Enregistrer</button>
+      <a class="btn btn-outline-secondary" href="{% url 'syndicat:member_list' syndicat.pk %}">Annuler</a>
+    </div>
+  </form>
+{% endblock %}
