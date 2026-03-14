@@ -12,6 +12,7 @@
       --primary: #0c4a6e;
       --primary-hover: #075985;
       --primary-light: rgba(12, 74, 110, 0.08);
+      --primary-lighter: rgba(12, 74, 110, 0.04);
       --accent: #0284c7;
       --accent-hover: #0369a1;
       --surface: #ffffff;
@@ -24,16 +25,21 @@
       --text-secondary: #475569;
       --text-muted: #64748b;
       --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.04);
-      --shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.06), 0 2px 4px -2px rgba(15, 23, 42, 0.04);
+      --shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.06), 0 2px 4px rgba(15, 23, 42, 0.04);
       --shadow-lg: 0 10px 15px -3px rgba(15, 23, 42, 0.08), 0 4px 6px -4px rgba(15, 23, 42, 0.04);
       --radius: 10px;
       --radius-lg: 14px;
+      --radius-xl: 18px;
     }
 
-    * { -webkit-font-smoothing: antialiased; }
+    * { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+    html { scroll-behavior: smooth; }
     body {
       font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
       background: var(--bg-body);
+      background-image: radial-gradient(ellipse 120% 80% at 50% -20%, rgba(2, 132, 199, 0.06), transparent),
+                      radial-gradient(ellipse 80% 50% at 100% 50%, rgba(12, 74, 110, 0.04), transparent),
+                      radial-gradient(ellipse 80% 50% at 0% 50%, rgba(12, 74, 110, 0.04), transparent);
       color: var(--text-secondary);
       font-size: 0.9375rem;
       line-height: 1.6;
@@ -46,29 +52,33 @@
     .navbar {
       background: var(--surface) !important;
       border-bottom: 1px solid var(--border);
-      box-shadow: var(--shadow-sm);
-      padding: 0.6rem 0;
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05);
+      padding: 0.75rem 0;
     }
     .navbar-brand {
       font-weight: 800;
-      font-size: 1.25rem;
-      letter-spacing: -0.02em;
+      font-size: 1.35rem;
+      letter-spacing: -0.03em;
       color: var(--primary) !important;
+      padding-left: 0.5rem;
+      border-left: 3px solid var(--accent);
     }
-    .navbar-brand i { opacity: 0.9; }
+    .navbar-brand i { opacity: 0.95; margin-right: 0.15rem; }
     .nav-link {
       font-weight: 500;
       color: var(--text-secondary) !important;
-      padding: 0.5rem 0.85rem !important;
+      padding: 0.5rem 0.9rem !important;
       border-radius: var(--radius);
-      transition: color 0.15s, background 0.15s;
+      transition: color 0.2s, background 0.2s, transform 0.15s;
     }
     .nav-link:hover { color: var(--primary) !important; background: var(--primary-light) !important; }
-    .navbar-toggler { border-color: var(--border); }
+    .nav-link:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .navbar-toggler { border-color: var(--border); border-radius: var(--radius); }
     .navbar-toggler-icon { background-size: 1.1rem; }
+    .navbar-toggler:focus { box-shadow: 0 0 0 2px rgba(2, 132, 199, 0.2); }
 
     /* Contenu principal */
-    main { flex: 1; padding-top: 1.75rem; padding-bottom: 3rem; }
+    main { flex: 1; padding-top: 2rem; padding-bottom: 3.5rem; }
 
     /* Fil d'Ariane */
     .breadcrumb {
@@ -91,6 +101,18 @@
       padding: 1.75rem 2rem;
       box-shadow: var(--shadow);
       margin-bottom: 1.75rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .page-header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
+      opacity: 0.9;
     }
     .page-header h1 {
       font-weight: 700;
@@ -108,11 +130,11 @@
       border-radius: var(--radius-lg);
       box-shadow: var(--shadow-sm);
       background: var(--surface);
-      transition: box-shadow 0.2s, border-color 0.2s;
+      transition: box-shadow 0.25s ease, border-color 0.25s ease, transform 0.2s ease;
     }
-    .card:hover { box-shadow: var(--shadow); border-color: rgba(2, 132, 199, 0.15); }
+    .card:hover { box-shadow: var(--shadow); border-color: rgba(2, 132, 199, 0.2); }
     .card-header {
-      background: var(--bg-subtle);
+      background: linear-gradient(180deg, var(--bg-subtle) 0%, #fff 100%);
       border-bottom: 1px solid var(--border);
       font-weight: 600;
       font-size: 0.9375rem;
@@ -120,7 +142,7 @@
       border-radius: var(--radius-lg) var(--radius-lg) 0 0;
       padding: 1rem 1.5rem;
     }
-    .card-header .bi { color: var(--primary); opacity: 0.9; }
+    .card-header .bi { color: var(--primary); opacity: 0.9; margin-right: 0.35rem; }
     .card-body { padding: 1.5rem; }
 
     /* Boutons */
@@ -130,13 +152,16 @@
       font-weight: 600;
       font-size: 0.9375rem;
       border-radius: var(--radius);
-      padding: 0.5rem 1.25rem;
-      box-shadow: 0 1px 2px rgba(2, 132, 199, 0.2);
+      padding: 0.55rem 1.35rem;
+      box-shadow: 0 1px 3px rgba(2, 132, 199, 0.25);
+      transition: box-shadow 0.2s, transform 0.15s;
     }
     .btn-primary:hover {
       background: linear-gradient(180deg, var(--accent-hover) 0%, var(--primary) 100%);
-      box-shadow: 0 2px 4px rgba(2, 132, 199, 0.25);
+      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
+      transform: translateY(-1px);
     }
+    .btn-primary:active { transform: translateY(0); }
     .btn-outline-primary {
       border-radius: var(--radius);
       font-weight: 500;
@@ -209,19 +234,27 @@
 
     /* Alertes */
     .alert {
-      border-radius: var(--radius);
+      border-radius: var(--radius-lg);
       border: 1px solid;
+      box-shadow: var(--shadow-sm);
     }
+    .alert-success { background: linear-gradient(135deg, rgba(22, 163, 74, 0.06) 0%, rgba(22, 163, 74, 0.02) 100%); }
+    .alert-info { background: linear-gradient(135deg, rgba(2, 132, 199, 0.06) 0%, rgba(2, 132, 199, 0.02) 100%); }
+    .alert-warning { background: linear-gradient(135deg, rgba(234, 179, 8, 0.08) 0%, rgba(234, 179, 8, 0.02) 100%); }
+    .alert-danger { background: linear-gradient(135deg, rgba(220, 38, 38, 0.06) 0%, rgba(220, 38, 38, 0.02) 100%); }
 
     /* Pied de page */
     footer {
       background: var(--surface);
       border-top: 1px solid var(--border);
-      padding: 1.25rem 0;
+      padding: 1.5rem 0;
       margin-top: auto;
       font-size: 0.8125rem;
       color: var(--text-muted);
+      box-shadow: 0 -1px 3px rgba(15, 23, 42, 0.04);
     }
+    footer .container { display: flex; align-items: center; gap: 0.5rem; }
+    footer .bi-briefcase-fill { color: var(--primary); opacity: 0.7; font-size: 1rem; }
 
     /* Liens */
     a { color: var(--primary); transition: color 0.15s; }
@@ -248,7 +281,18 @@
     }
 
     /* Empty states */
-    .card .display-1.text-muted { color: var(--border) !important; }
+    .empty-state { padding: 3rem 2rem; }
+    .empty-state .display-1 { color: var(--border) !important; opacity: 0.5; }
+    .empty-state h4 { font-weight: 600; color: var(--text-secondary); }
+    .empty-state .btn { border-radius: var(--radius); }
+
+    /* Table dans une card */
+    .card .table-responsive { border-radius: 0 0 var(--radius-lg) var(--radius-lg); }
+    .card .table thead th:first-child { border-radius: 0; }
+    .card > .table-responsive:first-child .table thead th { border-top: none; }
+
+    /* List group dans cards — icônes avec fond discret */
+    .list-group-item .bi:first-child { min-width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; border-radius: 8px; background: var(--primary-lighter); color: var(--primary) !important; font-size: 0.9rem; }
   </style>
   {% block extra_css %}{% endblock %}
 </head>
@@ -287,8 +331,9 @@
   </main>
 
   <footer>
-    <div class="container d-flex justify-content-between align-items-center flex-wrap gap-2">
-      <span>e-Syndicat — Gestion des syndicats et membres</span>
+    <div class="container">
+      <span><i class="bi bi-briefcase-fill me-2"></i>e-Syndicat</span>
+      <span class="text-muted">— Gestion des syndicats et cartes de membre</span>
     </div>
   </footer>
 

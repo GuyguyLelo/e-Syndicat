@@ -16,7 +16,7 @@
     <div class="row g-4">
       {% for s in syndicats %}
         <div class="col-md-6 col-lg-4">
-          <div class="card h-100">
+          <div class="card h-100 overflow-hidden">
             {% if s.logo %}
               <div class="card-img-top d-flex align-items-center justify-content-center p-4" style="height: 140px; background: linear-gradient(180deg, var(--bg-subtle) 0%, #fff 100%);">
                 <img src="{{ s.logo.url }}" alt="{{ s.nom }}" style="max-height: 100px; max-width: 100%; object-fit: contain;">
@@ -44,11 +44,11 @@
       {% endfor %}
     </div>
   {% else %}
-    <div class="card text-center py-5">
-      <div class="card-body">
-        <i class="bi bi-buildings display-1 text-muted opacity-25 mb-3"></i>
-        <h4 class="text-muted mb-2">Aucun syndicat</h4>
-        <p class="text-muted mb-4">Créez votre premier syndicat pour commencer.</p>
+    <div class="card text-center">
+      <div class="card-body empty-state">
+        <i class="bi bi-buildings display-1 text-muted mb-3 d-block"></i>
+        <h4 class="mb-2">Aucun syndicat</h4>
+        <p class="text-muted mb-4">Créez votre premier syndicat pour commencer à gérer vos membres et cartes.</p>
         <a class="btn btn-primary btn-lg" href="{% url 'syndicat:syndicat_create' %}">
           <i class="bi bi-plus-lg me-2"></i>Créer un syndicat
         </a>

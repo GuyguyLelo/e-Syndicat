@@ -15,16 +15,16 @@
 
   <div class="d-flex flex-wrap gap-4 justify-content-start">
     {% if member.generated_card %}
-    <div class="card shadow-sm border-0 overflow-hidden" style="max-width: 350px;">
-      <div class="card-header bg-light py-2"><strong>RECTO</strong></div>
+    <div class="card shadow-sm border overflow-hidden" style="max-width: 350px;">
+      <div class="card-header py-2"><strong>RECTO</strong></div>
       <div class="card-body p-0">
         <img src="{{ member.generated_card.url }}" alt="Carte RECTO" class="img-fluid w-100" style="display: block;">
       </div>
     </div>
     {% endif %}
     {% if member.generated_card_back %}
-    <div class="card shadow-sm border-0 overflow-hidden" style="max-width: 350px;">
-      <div class="card-header bg-light py-2"><strong>VERSO</strong></div>
+    <div class="card shadow-sm border overflow-hidden" style="max-width: 350px;">
+      <div class="card-header py-2"><strong>VERSO</strong></div>
       <div class="card-body p-0">
         <img src="{{ member.generated_card_back.url }}" alt="Carte VERSO" class="img-fluid w-100" style="display: block;">
       </div>

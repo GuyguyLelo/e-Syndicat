@@ -24,7 +24,7 @@
   </div>
 
   {% if membres %}
-    <div class="card overflow-hidden">
+    <div class="card overflow-hidden border-0 shadow-sm">
       <div class="table-responsive">
         <table class="table table-hover align-middle mb-0">
           <thead>
@@ -73,10 +73,10 @@
       </div>
     </div>
   {% else %}
-    <div class="card text-center py-5">
-      <div class="card-body">
-        <i class="bi bi-people display-1 text-muted opacity-25 mb-3"></i>
-        <h4 class="text-muted mb-2">Aucun membre</h4>
+    <div class="card text-center">
+      <div class="card-body empty-state">
+        <i class="bi bi-people display-1 text-muted mb-3 d-block"></i>
+        <h4 class="mb-2">Aucun membre</h4>
         <p class="text-muted mb-4">Ajoutez le premier membre ou définissez des <a href="{% url 'syndicat:categories_manage' syndicat.pk %}">catégories</a>.</p>
         <a class="btn btn-primary" href="{% url 'syndicat:member_create' syndicat.pk %}"><i class="bi bi-person-plus me-2"></i>Ajouter un membre</a>
       </div>
