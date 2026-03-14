@@ -32,7 +32,7 @@
           <div class="col-md-6">
             <label class="form-label fw-medium">Numéro de membre</label>
             {{ form.numero_membre }}
-            <div class="form-text">Laissé vide pour attribution automatique.</div>
+            <div class="form-text">Généré automatiquement à l'enregistrement.</div>
           </div>
           <div class="col-md-6">
             <label class="form-label fw-medium">Prénom</label>
@@ -43,6 +43,11 @@
             <label class="form-label fw-medium">Nom</label>
             {{ form.nom }}
             {% if form.nom.errors %}<div class="form-text text-danger">{{ form.nom.errors.0 }}</div>{% endif %}
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-medium">Matricule</label>
+            {{ form.matricule }}
+            {% if form.matricule.errors %}<div class="form-text text-danger">{{ form.matricule.errors.0 }}</div>{% endif %}
           </div>
           <div class="col-12">
             <label class="form-label fw-medium">Photo</label>
@@ -61,6 +66,14 @@
             <label class="form-label fw-medium">Ministère / Entreprise</label>
             {{ form.ministere_entreprise }}
             <div class="form-text">Affiché sur la carte.</div>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-medium">Service</label>
+            {{ form.service }}
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-medium">Banque</label>
+            {{ form.banque }}
           </div>
           <div class="col-md-6">
             <label class="form-label fw-medium">Adresse</label>

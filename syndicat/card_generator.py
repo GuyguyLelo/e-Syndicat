@@ -102,7 +102,7 @@ def generate_card_image(member_id):
     """
     from .models import Member
 
-    member = Member.objects.select_related("syndicat", "categorie").get(id=member_id)
+    member = Member.objects.select_related("syndicat", "categorie", "matricule").get(id=member_id)
     syndicat = member.syndicat
 
     chief_title = syndicat.signataire_titre or "Le Président"
@@ -190,7 +190,7 @@ def generate_card_image(member_id):
 
     category = member.categorie.nom if member.categorie else ""
     edu = member.ministere_entreprise or ""
-    matricule = member.numero_membre or ""
+    matricule = (member.matricule or member.numero_membre) or ""
     date_du_jour = date.today().strftime("%d/%m/%Y")
 
     qr_payload = f"{member.prenom}|{member.nom}|{matricule}|{category}"

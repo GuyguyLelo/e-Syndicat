@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Syndicat, MemberCategory, Member
+from .models import Syndicat, MemberCategory, Member, Banque
 
 
 class MemberCategoryInline(admin.TabularInline):
@@ -20,6 +20,12 @@ class SyndicatAdmin(admin.ModelAdmin):
     )
 
 
+@admin.register(Banque)
+class BanqueAdmin(admin.ModelAdmin):
+    list_display = ["nom"]
+    search_fields = ["nom"]
+
+
 @admin.register(MemberCategory)
 class MemberCategoryAdmin(admin.ModelAdmin):
     list_display = ["nom", "syndicat", "ordre"]
@@ -29,7 +35,7 @@ class MemberCategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Member)
 class MemberAdmin(admin.ModelAdmin):
-    list_display = ["nom_complet", "syndicat", "categorie", "numero_membre", "ministere_entreprise", "actif", "date_adhesion"]
+    list_display = ["nom_complet", "syndicat", "categorie", "numero_membre", "ministere_entreprise", "service", "banque", "matricule", "actif", "date_adhesion"]
     list_filter = ["syndicat", "categorie", "actif"]
     search_fields = ["prenom", "nom", "numero_membre", "email"]
     raw_id_fields = ["syndicat", "categorie"]

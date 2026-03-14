@@ -66,6 +66,19 @@ class Syndicat(models.Model):
         return self.nom
 
 
+class Banque(models.Model):
+    """Banque (pour le membre)."""
+    nom = models.CharField("Nom de la banque", max_length=120)
+
+    class Meta:
+        verbose_name = "Banque"
+        verbose_name_plural = "Banques"
+        ordering = ["nom"]
+
+    def __str__(self):
+        return self.nom
+
+
 class MemberCategory(models.Model):
     """Catégorie de membre (Propriétaire, Locataire, Membre du conseil, etc.)."""
     syndicat = models.ForeignKey(
@@ -112,6 +125,16 @@ class Member(models.Model):
         blank=True,
         help_text="Ex: ENVIRONNEMENT, Finances...",
     )
+    service = models.CharField("Service", max_length=200, blank=True)
+    banque = models.ForeignKey(
+        "Banque",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="membres",
+        verbose_name="Banque",
+    )
+    matricule = models.CharField("Matricule", max_length=50, blank=True, default="")
     adresse = models.CharField("Adresse", max_length=255, blank=True)
     photo = models.ImageField(
         "Photo",

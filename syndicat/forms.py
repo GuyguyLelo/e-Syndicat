@@ -1,5 +1,5 @@
 from django import forms
-from .models import Syndicat, MemberCategory, Member
+from .models import Syndicat, MemberCategory, Member, Banque
 
 
 class SyndicatForm(forms.ModelForm):
@@ -53,6 +53,10 @@ class MemberForm(forms.ModelForm):
             self.fields["categorie"].queryset = syndicat.categories.all()
             self.fields["syndicat"].initial = syndicat
             self.fields["syndicat"].widget = forms.HiddenInput()
+        self.fields["banque"].queryset = Banque.objects.all().order_by("nom")
+        if "numero_membre" in self.fields:
+            self.fields["numero_membre"].widget.attrs["readonly"] = True
+            self.fields["numero_membre"].help_text = "Généré automatiquement à l'enregistrement."
 
     class Meta:
         model = Member
@@ -62,9 +66,12 @@ class MemberForm(forms.ModelForm):
             "numero_membre",
             "prenom",
             "nom",
+            "matricule",
             "email",
             "telephone",
             "ministere_entreprise",
+            "service",
+            "banque",
             "adresse",
             "photo",
             "date_adhesion",
@@ -73,12 +80,15 @@ class MemberForm(forms.ModelForm):
         widgets = {
             "syndicat": forms.Select(attrs={"class": "form-control"}),
             "categorie": forms.Select(attrs={"class": "form-control"}),
-            "numero_membre": forms.TextInput(attrs={"class": "form-control", "placeholder": "Auto si vide"}),
+            "numero_membre": forms.TextInput(attrs={"class": "form-control", "placeholder": "Généré auto"}),
             "prenom": forms.TextInput(attrs={"class": "form-control"}),
             "nom": forms.TextInput(attrs={"class": "form-control"}),
             "email": forms.EmailInput(attrs={"class": "form-control"}),
             "telephone": forms.TextInput(attrs={"class": "form-control"}),
             "ministere_entreprise": forms.TextInput(attrs={"class": "form-control", "placeholder": "Ex: ENVIRONNEMENT"}),
+            "service": forms.TextInput(attrs={"class": "form-control", "placeholder": "Ex: Comptabilité"}),
+            "banque": forms.Select(attrs={"class": "form-control"}),
+            "matricule": forms.TextInput(attrs={"class": "form-control", "placeholder": "Ex: MAT-001"}),
             "adresse": forms.TextInput(attrs={"class": "form-control"}),
             "date_adhesion": forms.DateInput(attrs={"class": "form-control", "type": "date"}),
             "actif": forms.CheckboxInput(attrs={"class": "form-check-input"}),
