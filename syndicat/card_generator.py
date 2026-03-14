@@ -163,7 +163,7 @@ def generate_card_image(member_id):
     dr.text((title_x + 1, title_y + 1), syndicat.nom.upper(), font=font_title, fill=(60, 70, 90))
     dr.text((title_x, title_y), syndicat.nom.upper(), font=font_title, fill=(30, 35, 50))
 
-    full_name = f"{member.nom} {member.prenom}".strip() or "Nom Prénom"
+    full_name = f"{member.nom} {member.postnom} {member.prenom}".strip() or "Nom Prénom"
     photo_size = 240
     photo_x = WIDTH - pad - photo_size - 30
     photo_y = pad + 65

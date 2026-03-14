@@ -116,6 +116,7 @@ class Member(models.Model):
     )
     numero_membre = models.CharField("Numéro de membre", max_length=50, blank=True)
     prenom = models.CharField("Prénom", max_length=100)
+    postnom = models.CharField("Postnom", max_length=100, blank=True)
     nom = models.CharField("Nom", max_length=100)
     email = models.EmailField(blank=True)
     telephone = models.CharField("Téléphone", max_length=20, blank=True)
@@ -165,11 +166,11 @@ class Member(models.Model):
         ordering = ["syndicat", "nom", "prenom"]
 
     def __str__(self):
-        return f"{self.prenom} {self.nom}"
+        return f"{self.prenom} {self.postnom} {self.nom}".strip()
 
     @property
     def nom_complet(self):
-        return f"{self.prenom} {self.nom}".strip()
+        return f"{self.prenom} {self.postnom} {self.nom}".strip()
 
     def save(self, *args, **kwargs):
         if not self.numero_membre and self.syndicat_id and self.pk is None:
